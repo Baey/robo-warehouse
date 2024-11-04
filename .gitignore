@@ -1,0 +1,25 @@
+# Ignore build directories
+build/
+install/
+log/
+
+# Ignore colcon metadata
+.colcon/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Ignore ROS2 workspace files
+*.swp
+*.swo
+*.bak
+*.tmp
