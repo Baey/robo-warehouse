@@ -12,6 +12,7 @@
     <plugin name='ignition::gazebo::systems::Sensors' filename='ignition-gazebo-sensors-system'>
       <render_engine>ogre2</render_engine>
     </plugin>
+  
     <scene>
       <ambient>1 1 1 1</ambient>
       <background>0.3 0.7 0.9 1</background>
@@ -395,35 +396,10 @@
     </model>
 
     <include>
-      <uri>
-        https://fuel.ignitionrobotics.org/1.0/MovAi/models/Tugbot
-      </uri>
+      <uri>file:///home/developer/ros2_ws/src/robo_warehouse/models/Tugbot/model.sdf</uri>
       <name>tugbot</name>
       <pose>2.75268 1.0014 0.132279 0 0 0</pose>
     </include>
 
-    <include>
-      <uri>
-        https://fuel.ignitionrobotics.org/1.0/MovAi/models/Tugbot
-      </uri>
-      <name>tugbot2</name>
-      <pose>5.75268 1.0014 0.132279 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>
-        https://fuel.ignitionrobotics.org/1.0/MovAi/models/Tugbot
-      </uri>
-      <name>tugbot3</name>
-      <pose>2.75268 3.0014 0.132279 0 0 0</pose>
-    </include>
-
-    <include>
-      <uri>
-        https://fuel.ignitionrobotics.org/1.0/MovAi/models/Tugbot
-      </uri>
-      <name>tugbot4</name>
-      <pose>5.75268 3.0014 0.132279 0 0 0</pose>
-    </include>
   </world>
 </sdf>
