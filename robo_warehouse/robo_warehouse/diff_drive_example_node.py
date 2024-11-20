@@ -8,8 +8,7 @@ class TugbotDiffDriveController(Node):
 
     To set up the bridge, run the following command:
     ros2 run ros_gz_bridge parameter_bridge /model/tugbot/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist
-    ros2 run ros_gz_bridge parameter_bridge /gazebo/set_model_state@gazebo_msgs/srv/SetModelState@gz.msgs.SetModelState
-    ros2 run ros_gz_bridge parameter_bridge /gazebo/set_model_state[gazebo_msgs/srv/SetModelState@gz.msgs.SetModelState]
+
 
     """
 
