@@ -1,6 +1,5 @@
 import rclpy
 from rclpy.node import Node
-from gazebo_msgs.srv import SetModelState
 from geometry_msgs.msg import Pose, Point, Quaternion
 import random
 
@@ -9,68 +8,48 @@ class RandomPositionInitializer(Node):
     Node that initializes a random position for the robot in Gazebo.
 
     To use the bridge, run the following command:
-    ros2 run ros_gz_bridge parameter_bridge /gazebo/set_model_state@gazebo_msgs/srv/SetModelState@gz.msgs.SetModelState
+    ros2 run ros_gz_bridge parameter_bridge /model/tugbot/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist 
     """
 
     def __init__(self):
         """
         Initialize the RandomPositionInitializer node.
         
-        This node will request a random position for the robot in Gazebo.
-        It calls the 'set_model_state' service to set the robot's pose.
+        This node will publish a random position for the robot in Gazebo.
+        It publishes a Pose message to the '/model/tugbot/pose' topic.
         """
         super().__init__('random_position_initializer')
         
-        # Create a client to call the 'set_model_state' service in Gazebo
-        self.client_ = self.create_client(SetModelState, '/gazebo/set_model_state')
-
-        # Wait for the service to be available
-        while not self.client_.wait_for_service(timeout_sec=1.0):
-            self.get_logger().info('Waiting for set_model_state service to become available...')
-
-        # Create a random position
+        # Create a publisher to publish the random pose of the robot
+        self.publisher_ = self.create_publisher(Pose, '/model/tugbot/pose', 10)
+        
+        # Set a random position immediately upon initialization
         self.set_random_position()
 
     def set_random_position(self):
         """
-        Set a random position for the robot by calling the 'set_model_state' service.
+        Set a random position for the robot by publishing a Pose message.
         The robot will be positioned at a random (x, y) coordinate, and orientation will also be random.
         """
-        # Create a request to the service
-        request = SetModelState.Request()
+        # Create a Pose message
+        pose_msg = Pose()
 
-        # Set random position and orientation for the robot
-        request.model_state.model_name = 'tugbot'
-        
-        # Random position within a certain range
-        request.model_state.pose.position.x = random.uniform(-5.0, 5.0)  # Random X between -5 and 5 meters
-        request.model_state.pose.position.y = random.uniform(-5.0, 5.0)  # Random Y between -5 and 5 meters
-        request.model_state.pose.position.z = 0.0  # Keeping Z at 0 (ground level)
+        # Set random position within a certain range
+        pose_msg.position.x = random.uniform(-5.0, 5.0)  # Random X between -5 and 5 meters
+        pose_msg.position.y = random.uniform(-5.0, 5.0)  # Random Y between -5 and 5 meters
+        pose_msg.position.z = 0.0  # Keeping Z at 0 (ground level)
 
         # Random orientation (quaternion)
-        request.model_state.pose.orientation = Quaternion(
+        pose_msg.orientation = Quaternion(
             x=random.uniform(-1.0, 1.0),
             y=random.uniform(-1.0, 1.0),
             z=random.uniform(-1.0, 1.0),
             w=random.uniform(-1.0, 1.0)
         )
 
-        # Call the service to set the position and orientation
-        future = self.client_.call_async(request)
-        future.add_done_callback(self.set_position_callback)
-
-    def set_position_callback(self, future):
-        """
-        Callback that handles the result of the service call.
-        """
-        try:
-            response = future.result()
-            if response.success:
-                self.get_logger().info('Successfully set the random position of the robot.')
-            else:
-                self.get_logger().error('Failed to set the random position of the robot.')
-        except Exception as e:
-            self.get_logger().error('Service call failed: %r' % e)
+        # Publish the random position
+        self.publisher_.publish(pose_msg)
+        self.get_logger().info('Publishing random pose: %s' % str(pose_msg))
 
 def main(args=None):
     """
