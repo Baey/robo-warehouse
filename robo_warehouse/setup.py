@@ -14,7 +14,7 @@ setup(
         (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*launch.[pxy][yma]*'))),
         (os.path.join('share', package_name, 'worlds'), glob(os.path.join('worlds', '*'))),
     ],
-    install_requires=['setuptools', 'gazebo_ros_pkgs', 'geometry_msgs'],
+    install_requires=['setuptools', 'gazebo_ros_pkgs', 'geometry_msgs','gazebo_msgs'],
     zip_safe=True,
     maintainer='developer',
     maintainer_email='developer@todo.todo',
@@ -23,7 +23,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'robo_warehouse_entry = robo_warehouse.robo_warehouse_node:main'
+            'robo_warehouse_entry = robo_warehouse.diff_drive_example_node:main',
+            'robo_random_pose = robo_warehouse.random_start_position:main'
         ],
     },
 )

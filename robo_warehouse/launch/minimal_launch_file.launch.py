@@ -23,7 +23,12 @@ def generate_launch_description():
         name='tugbot_controller',
         output='screen'
     )
-
+    random_pose = Node(
+        package='robo_warehouse',
+        executable='robo_random_pose',
+        name='random_pose',
+        output='screen'
+    )
     # TODO: Dlaczego to nie działa?
     ros2gz_bridge = Node(
             package='ros_gz_bridge',
@@ -37,4 +42,5 @@ def generate_launch_description():
         gz_sim,
         # ros2gz_bridge,
         tugbot_controller,
+        random_pose
     ])
