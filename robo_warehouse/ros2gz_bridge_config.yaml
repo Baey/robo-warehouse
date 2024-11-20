@@ -21,3 +21,9 @@
   ros_type_name: "tf2_msgs/msg/TFMessage"
   gz_type_name: "gz.msgs.Pose_V"
   direction: BIDIRECTIONAL
+  
+- ros_topic_name: "/gazebo/set_model_state"
+  gz_topic_name: "/gazebo/set_model_state"
+  ros_type_name: "gazebo_msgs/ModelState"
+  gz_type_name: "gz.msgs.ModelState"
+  direction: BIDIRECTIONAL
