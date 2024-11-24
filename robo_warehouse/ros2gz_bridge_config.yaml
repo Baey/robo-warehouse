@@ -1,11 +1,11 @@
-topics:
-  - ros_topic_name: "/model/tugbot/cmd_vel"
-    gz_topic_name: "/model/tugbot/cmd_vel"
-    ros_type_name: "geometry_msgs/msg/Twist"
-    gz_type_name: "gz.msgs.Twist"
-    direction: BIDIRECTIONAL
-  - ros_topic_name: "/gazebo/set_model_state"
-    gz_topic_name: "/gazebo/set_model_state"
-    ros_type_name: "gazebo_msgs/ModelState"
-    gz_type_name: "gz.msgs.ModelState"
-    direction: BIDIRECTIONAL
+- ros_topic_name: "/model/tugbot/cmd_vel"
+  gz_topic_name: "/model/tugbot/cmd_vel"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: BIDIRECTIONAL
+- ros_topic_name: "/gazebo/set_model_state"
+  gz_topic_name: "/gazebo/set_model_state"
+  ros_type_name: "gazebo_msgs/ModelState"
+  gz_type_name: "gz.msgs.ModelState"
+  direction: BIDIRECTIONAL
+

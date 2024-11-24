@@ -29,18 +29,17 @@ def generate_launch_description():
         name='random_pose',
         output='screen'
     )
-    # TODO: Dlaczego to nie działa?
+
     ros2gz_bridge = Node(
-            package='ros_gz_bridge',
-            executable='parameter_bridge',
-            name='gz_bridge',
-            output='screen',
-            arguments=['--config-file', '/home/developer/ros2_ws/src/robo_warehouse/ros2gz_bridge_config.yaml']
-        )
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['--ros-args', '-p', 'config_file:=/home/developer/ros2_ws/src/robo_warehouse/ros2gz_bridge_config.yaml'],
+        output='screen'
+    )
 
     return LaunchDescription([
         gz_sim,
-        # ros2gz_bridge,
+        ros2gz_bridge,
         tugbot_controller,
         random_pose
     ])
