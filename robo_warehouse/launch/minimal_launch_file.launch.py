@@ -5,7 +5,7 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node  # Correct import for Node
-
+from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
@@ -30,9 +30,17 @@ def generate_launch_description():
         arguments=['--ros-args', '-p', 'config_file:=/home/developer/ros2_ws/src/robo_warehouse/ros2gz_bridge_config.yaml'],
         output='screen'
     )
+    # robot_state_publisher = Node(
+    #     package='robot_state_publisher',
+    #     executable='robot_state_publisher',
+    #     name='robot_state_publisher',
+    #     output='screen',
+    #     parameters=[{'robot_description': LaunchConfiguration('robot_description')}]
+    # )
 
     return LaunchDescription([
         gz_sim,
         ros2gz_bridge,
-        tugbot_controller,
+        tugbot_controller
+        # robot_state_publisher
     ])
