@@ -34,15 +34,16 @@ RUN apt update && \
         flake8-quotes \
         pytest-repeat \
         pytest-rerunfailures \
-        pytest
+        pytest 
 
 RUN pip3 install \
     kconfiglib \
     jsonschema \
     jinja2 \
     pyros-genmsg \
-    future 
-
+    future \
+    gymnasium \
+    pinstall "gymnasium[all]"
 
 # Install Gazebo Harmonic - Default Gazebo version in ROS2 Humble is Fortress
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
@@ -59,12 +60,8 @@ RUN useradd -rm -d /home/developer -s /bin/bash -g root -G sudo -u 1001 develope
     adduser developer sudo
 USER developer
 
-# RUN git clone https://github.com/PX4/PX4-Autopilot.git ~/PX4-Autopilot --recursive -b main && \
-#     echo developer | sudo -S bash /home/developer/PX4-Autopilot/Tools/setup/ubuntu.sh
-
 COPY . /home/developer/ros2_ws
 WORKDIR /home/developer/ros2_ws
-
 
 RUN echo ". /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc \
     && echo ". /home/developer/ros2_ws/install/setup.bash" >> ~/.bashrc
