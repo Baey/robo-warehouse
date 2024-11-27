@@ -22,8 +22,8 @@
   gz_type_name: "gz.msgs.Pose_V"
   direction: BIDIRECTIONAL
   
-- ros_topic_name: "/gazebo/set_model_state"
-  gz_topic_name: "/gazebo/set_model_state"
-  ros_type_name: "gazebo_msgs/ModelState"
-  gz_type_name: "gz.msgs.ModelState"
-  direction: BIDIRECTIONAL
+- ros_topic_name: "/model/tugbot/pose"
+  gz_topic_name: "/model/tugbot/pose"
+  ros_type_name: "geometry_msgs/msg/Pose"
+  gz_type_name: "gz.msgs.Pose"
+  direction: ROS_TO_GZ
