@@ -1,22 +1,55 @@
-
+import gymnasium as gym
 import torch
+import pygame
 from stable_baselines3 import PPO
 from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.vec_env import DummyVecEnv
 from tugbot_env import TugbotEnv
 
-# Check if MPS is available and set the device
-# device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
-device = torch.device("cpu")
+# Register the environment
+gym.register(
+    id="tugbot_env/Tugbot-v0",
+    entry_point=TugbotEnv,
+)
 
-env = Monitor(TugbotEnv(render_mode='human', margin=20, max_steps=8000))
+def main():
+    device = torch.device("cpu")
+    
+    # Create and wrap the environment with explicit rendering
+    env = TugbotEnv(render_mode='human', margin=20, max_steps=8000)
+    base_env = env  # Store reference to unwrapped env
+    env = Monitor(env)
+    env = DummyVecEnv([lambda: env])
 
-# Load the model
-model = PPO.load("ppo_tugbot_final", env=env, device=device)
+    try:
+        # Load the trained model
+        model = PPO.load("tugbot_final_model", env=env, device=device)
+        
+        # Run episodes
+        num_episodes = 5
+        for episode in range(num_episodes):
+            obs = env.reset()  # VecEnv doesn't return info
+            episode_reward = 0
+            done = False
+            
+            while not done:
+                action, _ = model.predict(obs, deterministic=True)
+                obs, reward, done, info = env.step(action)  # VecEnv returns different format
+                episode_reward += reward[0]  # reward is now a numpy array
+                done = done[0]  # done is now a numpy array
+                
+                # Ensure the window updates
+                base_env.render()
+                pygame.display.flip()
+                pygame.time.wait(10)  # Add small delay to make visualization smooth
+                
+            print(f"Episode {episode + 1} reward: {episode_reward}")
+            
+    except Exception as e:
+        print(f"Error loading or running model: {e}")
+    finally:
+        env.close()
+        pygame.quit()
 
-# Test model
-obs, _ = env.reset()  # Unpack the tuple returned by reset
-done = False
-while not done:
-    action, _states = model.predict(obs, deterministic=True)
-    obs, reward, done, truncated, info = env.step(action)  # Unpack the tuple returned by step
-    env.render()  # Ensure render is called within the loop to update the window
+if __name__ == "__main__":
+    main()

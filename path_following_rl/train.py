@@ -1,72 +1,55 @@
-import torch
+import gymnasium as gym
+from tugbot_env import TugbotEnv
 from stable_baselines3 import PPO
 from stable_baselines3.common.monitor import Monitor
-from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
-from stable_baselines3.common.callbacks import EvalCallback
-from tugbot_env import TugbotEnv
+from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.callbacks import CheckpointCallback
 
-# Create environments
-def make_env(render_mode=None):
-    def _init():
-        env = TugbotEnv(render_mode=render_mode, margin=20, max_steps=8000)
-        return Monitor(env)
-    return _init
-
-# Create training environment
-train_envs = [make_env() for _ in range(8)]
-vec_env = DummyVecEnv(train_envs)
-vec_env = VecNormalize(vec_env, norm_obs=True, norm_reward=True)
-
-# Create evaluation environment (wrapped the same way as training)
-eval_envs = [make_env()]
-eval_env = DummyVecEnv(eval_envs)
-eval_env = VecNormalize(eval_env, norm_obs=True, norm_reward=True, training=False)
-
-# Create evaluation callback
-eval_callback = EvalCallback(
-    eval_env,
-    best_model_save_path='./best_model/',
-    log_path='./logs/',
-    eval_freq=10000,
-    deterministic=True,
-    render=False
+# Register the environment
+gym.register(
+    id="tugbot_env/Tugbot-v0",
+    entry_point=TugbotEnv,
 )
 
-# Configure PPO with better hyperparameters
-model = PPO(
-    "MlpPolicy",
-    vec_env,
-    learning_rate=3e-4,  # More conservative learning rate
-    n_steps=2048,
-    batch_size=64,  # Smaller batch size for better generalization
-    n_epochs=10,
-    gamma=0.99,
-    gae_lambda=0.95,
-    clip_range=0.2,
-    ent_coef=0.01,  # Reduced entropy for more exploitation
-    policy_kwargs=dict(
-        net_arch=dict(
-            pi=[128, 128],  # Separate policy network
-            vf=[128, 128]   # Separate value network
-        )
-    ),
-    verbose=1,
-    device='cpu'
-)
+def main():
+    # Initialize the environment in headless mode
+    env = TugbotEnv(render_mode=None, margin=20, max_steps=5000)
+    env = Monitor(env)
+    env = DummyVecEnv([lambda: env])
 
-# Increase training time for better learning
-model.learn(total_timesteps=5_000_000, callback=eval_callback)
+    # Create the model
+    model = PPO(
+        "MultiInputPolicy", 
+        env, 
+        verbose=1, 
+        device='cpu',
+        learning_rate=1e-4,      # Reduced learning rate
+        n_steps=1024,            # Reduced steps per update
+        batch_size=64,
+        n_epochs=10,
+        gamma=0.99,
+        gae_lambda=0.95,
+        clip_range=0.2,
+        ent_coef=0.01           # Added entropy coefficient for exploration
+    )
 
-# Save the final model
-model.save("ppo_tugbot_final")
-vec_env.save("vec_normalize.pkl")
+    # Setup checkpointing
+    checkpoint_callback = CheckpointCallback(
+        save_freq=10000,
+        save_path="./training_checkpoints/",
+        name_prefix="tugbot_model"
+    )
 
-# Test visualization
-env = TugbotEnv(render_mode='human', margin=20)
-obs, _ = env.reset()
-done = False
+    # Train the model
+    total_timesteps = 1_000_000
+    model.learn(
+        total_timesteps=total_timesteps,
+        callback=checkpoint_callback,
+        progress_bar=True
+    )
 
-while not done:
-    action, _ = model.predict(obs, deterministic=True)
-    obs, reward, done, truncated, info = env.step(action)
-    env.render()
+    # Save the final model
+    model.save("tugbot_final_model")
+
+if __name__ == "__main__":
+    main()

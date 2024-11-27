@@ -13,6 +13,7 @@ ROBOT_RADIUS = 20
 ROBOT_WIDTH = 50
 MAX_SPEED = 100
 MAX_OMEGA = 1.0
+base_reward: float = 0.0
 
 def generate_path(start_x: float, start_y: float, num_points: int = 10, width: int = 800, height: int = 600, step_size: int = 100) -> list:
     """
@@ -168,6 +169,51 @@ def get_state(x: float, y: float, theta: float, v: float, omega: float, path: li
     next_next_point = path[next_point_index + 1] if next_point_index + 1 < len(path) else next_point
     return [x, y, theta, v, omega, next_point[0], next_point[1], next_next_point[0], next_next_point[1]]
 
+def calculate_reward(last_distance: float, dist_to_next_point: float, theta: float, x: float, y: float, next_point: tuple, margin: float = 20) -> float:
+    global base_reward
+
+    # Progress reward with momentum
+    progress = last_distance - dist_to_next_point
+    progress_reward = progress
+
+    # Improved angle alignment reward
+    desired_theta = math.atan2(
+        next_point[1] - y,
+        next_point[0] - x,
+    )
+    angle_diff = abs(desired_theta - theta) % (2 * math.pi)
+    if angle_diff > math.pi:
+        angle_diff = 2.0 * math.pi - angle_diff
+    
+    heading_reward = math.cos(angle_diff)
+
+    # Checkpoint reward
+    if dist_to_next_point < margin:
+        base_reward += 100.0
+
+
+    total_reward = (progress_reward * 10.0 + 
+            dist_to_next_point * -0.2 +
+            heading_reward * 0.5 + 
+            base_reward)
+    
+    return total_reward, progress_reward, heading_reward, base_reward
+
+def display_reward(screen, reward_info: tuple) -> None:
+    font = pygame.font.Font(None, 36)
+    total_reward, progress_reward, heading_reward, checkpoint_reward = reward_info
+    rewards_text = [
+        f"Total Reward: {total_reward:.2f}",
+        f"Progress Reward: {progress_reward:.2f}",
+        f"Heading Reward: {heading_reward:.2f}",
+        f"Checkpoint Reward: {checkpoint_reward:.2f}",
+        f"Base Reward: {base_reward:.2f}"
+    ]
+    
+    for i, text in enumerate(rewards_text):
+        surface = font.render(text, True, BLACK)
+        screen.blit(surface, (20, 100 + i * 30))
+
 def main():
     pygame.init()
 
@@ -185,6 +231,7 @@ def main():
     v = 0
     omega = 0
     next_point_index = 1
+    last_distance = None
 
     while running:
         for event in pygame.event.get():
@@ -217,10 +264,26 @@ def main():
             else:
                 next_point_index += 1
 
+        # Calculate rewards
+        current_distance = distance((x, y), path[next_point_index])
+        if last_distance is None:
+            last_distance = current_distance
+            
+        reward_info = calculate_reward(
+            last_distance, 
+            current_distance, 
+            theta, 
+            x, 
+            y, 
+            path[next_point_index]
+        )
+        last_distance = current_distance
+
         screen.fill(WHITE)
         draw_path(screen, path, next_point_index)  # Draw the path with the next point marked
         draw_robot(screen, x, y, theta)
-        display_info(screen, x, y, path[next_point_index], distance((x, y), path[next_point_index]))  # Draw the info
+        display_info(screen, x, y, path[next_point_index], current_distance)  # Draw the info
+        display_reward(screen, reward_info)  # Add reward display
 
         pygame.display.flip()
         clock.tick(60)
