@@ -6,10 +6,18 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node  # Correct import for Node
 from launch.substitutions import LaunchConfiguration
+from robo_warehouse.random_start_position import set_random_pos
 
 def generate_launch_description():
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
     pkg_robo_warehouse = get_package_share_directory('robo_warehouse')
+    set_random_pos()
+
+    gz_sim = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')),
+        launch_arguments={'gz_args': f"-r {os.path.join(pkg_robo_warehouse, 'worlds', 'tugbot_depot.sdf')}"}.items(),
+    )
 
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -45,6 +53,7 @@ def generate_launch_description():
     # )
 
     return LaunchDescription([
+
         gz_sim,
         ros2gz_bridge,
         tugbot_controller,

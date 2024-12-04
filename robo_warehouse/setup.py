@@ -24,7 +24,7 @@ setup(
     entry_points={
         'console_scripts': [
             'robo_warehouse_entry = robo_warehouse.diff_drive_example_node:main',
-            'robo_random_pose = diff_drive_example.random_start_position:main'
+            'robo_random_pose = robo_warehouse.random_start_position:main'
         ],
     },
 )

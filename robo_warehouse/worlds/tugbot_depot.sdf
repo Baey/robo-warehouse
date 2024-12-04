@@ -398,8 +398,7 @@
     <include>
       <uri>file:///home/developer/ros2_ws/src/robo_warehouse/models/Tugbot/model.sdf</uri>
       <name>tugbot</name>
-      <pose>5.75268 10.0014 0.132279 0 0 0</pose>
+      <pose>1.990532 -3.401817 0.132279 0 0 0</pose>
     </include>
-
   </world>
 </sdf>
