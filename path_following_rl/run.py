@@ -16,14 +16,16 @@ def main():
     device = torch.device("cpu")
     
     # Create and wrap the environment with explicit rendering
-    env = TugbotEnv(render_mode='human', margin=20, max_steps=8000)
+    env = TugbotEnv(render_mode='human', margin=20, max_steps=1000)
     base_env = env  # Store reference to unwrapped env
     env = Monitor(env)
     env = DummyVecEnv([lambda: env])
 
     try:
         # Load the trained model
-        model = PPO.load("tugbot_final_model", env=env, device=device)
+        # model = PPO.load("/home/developer/ros2_ws/src/path_following_rl/best_model/best_model.zip", env=env, device=device)
+        model = PPO.load("/home/developer/ros2_ws/src/path_following_rl/tugbot_final_model.zip", env=env, device=device)
+        # model = PPO.load("/home/developer/ros2_ws/src/path_following_rl/best_model/good_model.zip", env=env)
         
         # Run episodes
         num_episodes = 5
@@ -41,7 +43,7 @@ def main():
                 # Ensure the window updates
                 base_env.render()
                 pygame.display.flip()
-                pygame.time.wait(10)  # Add small delay to make visualization smooth
+                pygame.time.wait(2)  # Add small delay to make visualization smooth
                 
             print(f"Episode {episode + 1} reward: {episode_reward}")
             
