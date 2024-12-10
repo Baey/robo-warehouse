@@ -1,6 +1,0 @@
-slam_toolbox:
-  ros__parameters:
-    scan_topic: "/sensor/scan_front/scan"
-    odom_frame : "odom"
-    map_frame : "map"
-    base_frame : "base_link"

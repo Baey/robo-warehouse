@@ -10,7 +10,7 @@
   gz_type_name: "gz.msgs.Odometry"
   direction: GZ_TO_ROS
 
-- ros_topic_name: "/sensor/scan_front/scan"
+- ros_topic_name: "/scan_filtered"
   gz_topic_name: "/world/world_demo/model/tugbot/link/scan_front/sensor/scan_front/scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
