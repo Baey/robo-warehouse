@@ -13,8 +13,10 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*launch.[pxy][yma]*'))),
         (os.path.join('share', package_name, 'worlds'), glob(os.path.join('worlds', '*'))),
+        (os.path.join('share', package_name, 'config'), glob(os.path.join('config', '*'))),
+
     ],
-    install_requires=['setuptools', 'gazebo_ros_pkgs', 'geometry_msgs'],
+    install_requires=['setuptools', 'gazebo_ros_pkgs', 'geometry_msgs', 'slam_toolbox', 'tf2'],
     zip_safe=True,
     maintainer='developer',
     maintainer_email='developer@todo.todo',
