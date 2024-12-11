@@ -7,40 +7,64 @@ import heapq
 import math
 
 
-import rospy
+import rclpy
+from rclpy.node import Node
 from nav_msgs.msg import OccupancyGrid
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Funkcja callback, która zostanie wywołana, gdy nowa mapa zostanie opublikowana
-def map_callback(msg):
-    # Odbieranie danych mapy
-    width = msg.info.width
-    height = msg.info.height
-    resolution = msg.info.resolution  # Rozdzielczość w metrach na komórkę
+class TugbotMapListener(Node):
+    """
+    Node that subscribes to the '/map' topic and logs or processes the received OccupancyGrid message.
+    """
+
+    def __init__(self):
+        """
+        Initialize the TugbotMapListener node.
+        
+        Creates a subscriber to listen to OccupancyGrid messages on the '/map' topic.
+        """
+        super().__init__('tugbot_map_listener')
+        self.subscription = self.create_subscription(
+            OccupancyGrid,
+            '/map',
+            self.listener_callback,
+            10)
+        self.subscription  # prevent unused variable warning
+
+    def listener_callback(self, msg):
+        """
+        Callback function that processes the incoming OccupancyGrid message.
+        
+        Logs or processes the received map data.
+        """
+        self.get_logger().info('Received a new map with dimensions: %d x %d' % (msg.info.width, msg.info.height))
+
+        # Extracting the grid data (occupancy values)
+        grid_data = np.array(msg.data).reshape((msg.info.height, msg.info.width))
+
+        # Visualizing the occupancy grid
+        plt.imshow(grid_data, cmap='gray')
+        plt.title('Occupancy Grid Map')
+        plt.colorbar(label='Occupancy (0: free, 100: occupied, -1: unknown)')
+        plt.show()
+
+def main(args=None):
+    """
+    Main function to initialize and spin the TugbotMapListener node.
     
-    # Konwertowanie danych mapy do tablicy NumPy
-    grid = np.array(msg.data).reshape((height, width))
-    
-    # Wyświetlanie mapy za pomocą Matplotlib
-    plt.imshow(grid, cmap='gray')
-    plt.title('Occupancy Grid Map')
-    plt.colorbar(label='Occupancy (0: free, 100: occupied)')
-    plt.show()
-
-def listener():
-    # Inicjalizacja węzła ROS
-    rospy.init_node('map_listener', anonymous=True)
-
-    # Subskrypcja tematu '/map' (mapa) z wiadomościami typu OccupancyGrid
-    rospy.Subscriber('/map', OccupancyGrid, map_callback)
-
-    # Uruchomienie pętli ROS, aby nasłuchiwać tematów
-    rospy.spin()
+    :param args: Command line arguments passed to the node.
+    """
+    rclpy.init(args=args)
+    node = TugbotMapListener()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        node.destroy_node()
+        rclpy.shutdown()
 
 if __name__ == '__main__':
-    listener()
-
+    main()
 
 
 
