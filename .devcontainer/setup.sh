@@ -8,4 +8,4 @@ cd /home/developer/ros2_ws
 rosdep update --rosdistro $ROS_DISTRO
 rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y
 
-echo "export ROS_DOMAIN_ID=22" >> ~/.bashrc
+echo "export ROS_DOMAIN_ID=2137" >> ~/.bashrc

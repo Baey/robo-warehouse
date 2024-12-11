@@ -67,12 +67,12 @@ class TugbotEnv(gym.Env):
         belt_reward = self._belt_reward()  # Add belt reward
 
         total_reward = (
-            potential_reward * 3.0 +
-            checkpoint_reward * 2.0 + 
-            speed_penalty * 0.01 +
-            heading_reward * 0.2 +
-            belt_reward * 0.4 +  # Include belt reward
-            - 0.1
+            potential_reward * 2.0 +
+            checkpoint_reward * 1.0 + 
+            speed_penalty * 0.0 +
+            heading_reward * 0.1 +
+            belt_reward * 0.1 +  # Include belt reward
+            - 0.0
         )
 
         self.reward_components = {

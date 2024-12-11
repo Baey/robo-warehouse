@@ -48,7 +48,7 @@ def main():
             learning_rate=1.0e-4,  # Reduced learning rate for stability
             n_steps=1024,        # Increased steps per update
             batch_size=32,       # Smaller batch size
-            n_epochs=10,         # More epochs per update
+            n_epochs=5,         # More epochs per update
             gamma=0.99,
             gae_lambda=0.95,     # GAE parameter
             ent_coef=0.0,      # Increased entropy for better exploration
@@ -56,8 +56,8 @@ def main():
             max_grad_norm=0.5,   # Gradient clipping
             policy_kwargs=dict(
                 net_arch=dict(
-                    pi=[128, 64],    # Larger actor network
-                    vf=[128, 64]     # Larger critic network
+                    pi=[64, 64],    # Larger actor network
+                    vf=[64, 64]     # Larger critic network
                 ),
                 ortho_init=True       # Orthogonal initialization
             )

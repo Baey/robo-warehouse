@@ -24,8 +24,9 @@ def main():
     try:
         # Load the trained model
         # model = PPO.load("/home/developer/ros2_ws/src/path_following_rl/best_model/best_model.zip", env=env, device=device)
-        model = PPO.load("/home/developer/ros2_ws/src/path_following_rl/tugbot_final_model.zip", env=env, device=device)
+        # model = PPO.load("/home/developer/ros2_ws/src/path_following_rl/tugbot_final_model.zip", env=env, device=device)
         # model = PPO.load("/home/developer/ros2_ws/src/path_following_rl/best_model/good_model.zip", env=env)
+        model = PPO.load("/home/developer/ros2_ws/src/path_following_rl/tugbot_interrupt_model.zip", device='cpu')
         
         # Run episodes
         num_episodes = 5

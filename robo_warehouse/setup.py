@@ -23,7 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'robo_warehouse_entry = robo_warehouse.diff_drive_example_node:main'
+            'tugbot_driver = robo_warehouse.tugbot_driver:main',
         ],
     },
 )

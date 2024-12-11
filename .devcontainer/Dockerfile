@@ -42,9 +42,10 @@ RUN pip3 install \
     jinja2 \
     pyros-genmsg \
     future \
-    pygame \
-    gymnasium \
-    stable-baselines3 
+    getch
+    # pygame 
+    # gymnasium \
+    # stable-baselines3 
     # pip install 'stable-baselines3[extra]'
 
 
