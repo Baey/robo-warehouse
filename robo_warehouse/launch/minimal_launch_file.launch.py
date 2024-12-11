@@ -18,34 +18,16 @@ def generate_launch_description():
         launch_arguments={'gz_args': f"-r {os.path.join(pkg_robo_warehouse, 'worlds', 'tugbot_depot.sdf')}"}.items(),
     )
 
-<<<<<<< HEAD
-=======
-    # tugbot_controller = Node(
-    #     package='robo_warehouse',
-    #     executable='tugbot_driver',
-    #     name='tugbot_driver',
-    #     output='screen'
-    # )
-
->>>>>>> ce1f7cc (feat: refactor Tugbot control with teleoperation support)
     ros2gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=['--ros-args', '-p', 'config_file:=/home/developer/ros2_ws/src/robo_warehouse/config/ros2gz_bridge_config.yaml'],
         output='screen'
     )
-<<<<<<< HEAD
-
-    return LaunchDescription([
-        gz_sim,
-        ros2gz_bridge
-=======
-    
 
     return LaunchDescription([
         gz_sim,
         ros2gz_bridge,
-        # tugbot_controller,
         DeclareLaunchArgument(
             'urdf_file',
             default_value='/home/developer/ros2_ws/src/robo_warehouse/models/Tugbot/model.urdf'
@@ -58,5 +40,4 @@ def generate_launch_description():
             arguments=[LaunchConfiguration('urdf_file')],
             output='screen'
         )
->>>>>>> 495caef (slam ready)
     ])
