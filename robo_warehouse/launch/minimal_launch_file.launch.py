@@ -32,6 +32,12 @@ def generate_launch_description():
         output='screen'
     )
     
+    # astar = Node(
+    #     package='robo_warehouse',
+    #     executable='robo_warehouse_astar',
+    #     name='astar',
+    #     output='screen'
+    # )
 
     return LaunchDescription([
         gz_sim,
@@ -40,7 +46,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'urdf_file',
             default_value='/home/developer/ros2_ws/src/robo_warehouse/models/Tugbot/model.urdf'
-,
+            ,
             description='Full path to the URDF file to load'
         ),
         Node(
