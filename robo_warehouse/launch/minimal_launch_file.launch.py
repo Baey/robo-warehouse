@@ -18,13 +18,6 @@ def generate_launch_description():
         launch_arguments={'gz_args': f"-r {os.path.join(pkg_robo_warehouse, 'worlds', 'tugbot_depot.sdf')}"}.items(),
     )
 
-    tugbot_controller = Node(
-        package='robo_warehouse',
-        executable='robo_warehouse_entry',
-        name='tugbot_controller',
-        output='screen'
-    )
-
     ros2gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
