@@ -29,7 +29,6 @@ def generate_launch_description():
     return LaunchDescription([
         gz_sim,
         ros2gz_bridge,
-        tugbot_controller,
         DeclareLaunchArgument(
             'urdf_file',
             default_value='/home/developer/ros2_ws/src/robo_warehouse/models/Tugbot/model.urdf'
