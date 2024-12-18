@@ -24,10 +24,12 @@ def generate_launch_description():
         arguments=['--ros-args', '-p', 'config_file:=/home/developer/ros2_ws/src/robo_warehouse/config/ros2gz_bridge_config.yaml'],
         output='screen'
     )
+    
 
     return LaunchDescription([
         gz_sim,
         ros2gz_bridge,
+        tugbot_controller,
         DeclareLaunchArgument(
             'urdf_file',
             default_value='/home/developer/ros2_ws/src/robo_warehouse/models/Tugbot/model.urdf'
