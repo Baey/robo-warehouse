@@ -1,5 +1,6 @@
 import rclpy
 import getch
+import threading
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 
@@ -27,39 +28,29 @@ class TugbotDiffDriveController(Node):
         self.get_logger().info('Starting Tugbot Controller')
         self.get_logger().info('Press "t" to toggle teleop mode')
         self.get_logger().info('In teleop mode, use "w", "s", "a", "d" to move and space to stop')
+        self.teleop_thread = threading.Thread(target=self.teleop_listener)
+        self.teleop_thread.daemon = True
+        self.teleop_thread.start()
 
-    def timer_callback(self):
+    def teleop_listener(self):
         """
-        Callback function that publishes Twist messages at regular intervals.
-        
-        This function is called by the timer and publishes a Twist message with
-        a fixed linear and angular velocity to the '/model/tugbot/cmd_vel' topic.
+        Thread function to listen for keyboard inputs at a higher frequency.
         """
-        key = getch.getch()
-        if key == 't':
-            self.teleop = not self.teleop
+        while rclpy.ok():
+            key = getch.getch()
+            if key == 't':
+                self.teleop = not self.teleop
+                if self.teleop:
+                    self.get_logger().info('Switching into teleop mode')
+                else:
+                    self.get_logger().info('Switching into automatic mode')
             if self.teleop:
-                self.get_logger().info('Switching into teleop mode')
-            else:
-                self.get_logger().info('Switching into automatic mode')
+                self.process_teleop_key(key)
 
-        if self.teleop:
-            self.teleop_callback()
-        else:
-            self.cmd.linear.x = 0.0
-            self.cmd.angular.z = 10.0
-
-        self.publisher_.publish(self.cmd)
-    
-    def teleop_callback(self):
+    def process_teleop_key(self, key):
         """
-        Callback function that publishes Twist messages based on user input.
-        
-        This function is called by the timer when the teleop flag is set to True.
-        It reads user input from the keyboard and sets the linear and angular
-        velocity of the Twist message accordingly.
+        Process the key input for teleop mode.
         """
-        key = getch.getch()
         if key == 'w':
             self.cmd.linear.x += 0.5
             if self.cmd.linear.x > 1.0:
@@ -84,6 +75,19 @@ class TugbotDiffDriveController(Node):
             self.cmd.linear.x = 0.0
             self.cmd.angular.z = 0.0
             self.get_logger().info('(space) Stop')
+
+    def timer_callback(self):
+        """
+        Callback function that publishes Twist messages at regular intervals.
+        
+        This function is called by the timer and publishes a Twist message with
+        a fixed linear and angular velocity to the '/model/tugbot/cmd_vel' topic.
+        """
+        if not self.teleop:
+            self.cmd.linear.x = 0.0
+            self.cmd.angular.z = 10.0
+
+        self.publisher_.publish(self.cmd)
 
 def main(args=None):
     """
