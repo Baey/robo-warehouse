@@ -12,7 +12,7 @@ slam:
     odom_frame: odom
     map_frame: map
     base_frame: base_link
-    scan_topic: /scan_filtered #/scan
+    scan_topic: /scan #/scan_filtered
     mode: mapping #localization
 
     # if you'd like to immediately start continuing a map at a given pose

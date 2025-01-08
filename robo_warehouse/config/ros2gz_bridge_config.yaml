@@ -1,8 +1,8 @@
-- ros_topic_name: "/model/tugbot/cmd_vel"
-  gz_topic_name: "/model/tugbot/cmd_vel"
-  ros_type_name: "geometry_msgs/msg/Twist"
-  gz_type_name: "gz.msgs.Twist"
-  direction: BIDIRECTIONAL
+# - ros_topic_name: "/model/tugbot/cmd_vel"
+#   gz_topic_name: "/model/tugbot/cmd_vel"
+#   ros_type_name: "geometry_msgs/msg/Twist"
+#   gz_type_name: "gz.msgs.Twist"
+#   direction: BIDIRECTIONAL
 
 - ros_topic_name: "/model/tugbot/odometry"
   gz_topic_name: "/model/tugbot/odometry"
@@ -10,7 +10,7 @@
   gz_type_name: "gz.msgs.Odometry"
   direction: GZ_TO_ROS
 
-- ros_topic_name: "/scan_filtered"
+- ros_topic_name: "/scan"
   gz_topic_name: "/world/world_demo/model/tugbot/link/scan_omni/sensor/scan_omni/scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
@@ -20,4 +20,10 @@
   gz_topic_name: "/model/tugbot/tf"
   ros_type_name: "tf2_msgs/msg/TFMessage"
   gz_type_name: "gz.msgs.Pose_V"
+  direction: BIDIRECTIONAL
+
+- ros_topic_name: "/cmd_vel_nav"
+  gz_topic_name: "/model/tugbot/cmd_vel"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
   direction: BIDIRECTIONAL

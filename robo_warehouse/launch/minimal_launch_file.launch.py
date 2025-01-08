@@ -22,7 +22,7 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=['--ros-args', '-p', 'config_file:=/home/developer/ros2_ws/src/robo_warehouse/config/ros2gz_bridge_config.yaml'],
-        output='screen'
+        output='screen',
     )
     
 
