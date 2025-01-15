@@ -104,6 +104,9 @@ Przed uruchomieniem należy doinstalować odpodwiednie paczki:
 
 ## Użycie
 
+Aby zdadać robotowi docelową destynację należy po uruchomieniu okna klinknąc na przycisk "2D Goal Pose" i kliknąc na odpowiednie miejsce na planszy.
+Następnie za pomoca strzałki można wybrać kierunek robota.
+
 
 
 
