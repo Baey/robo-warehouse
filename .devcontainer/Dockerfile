@@ -72,6 +72,6 @@ WORKDIR /home/developer/ros2_ws
 
 
 RUN echo ". /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc \
-    && echo ". /home/developer/ros2_ws/install/setup.bash" >> ~/.bashrc \
+    && echo ". /home/developer/ros2_ws/install/setup.bash" >> ~/.bashrc
 
 CMD [ "sleep", "infinity" ]

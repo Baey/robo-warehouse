@@ -13,10 +13,12 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*launch.[pxy][yma]*'))),
         (os.path.join('share', package_name, 'worlds'), glob(os.path.join('worlds', '*'))),
+        (os.path.join('share', package_name, 'models', 'Tugbot'), 
+         [f for f in glob(os.path.join('models', 'Tugbot', '**', '*'), recursive=True) if os.path.isfile(f)]),
         (os.path.join('share', package_name, 'config'), glob(os.path.join('config', '*'))),
 
     ],
-    install_requires=['setuptools', 'gazebo_ros_pkgs', 'geometry_msgs', 'slam_toolbox', 'tf2'],
+    install_requires=['setuptools', 'gazebo_ros_pkgs', 'geometry_msgs', 'slam_toolbox', 'tf2', 'nav2'],
     zip_safe=True,
     maintainer='developer',
     maintainer_email='developer@todo.todo',
