@@ -112,10 +112,14 @@ Następnie w odobnym terminalu
 ## Użycie
 
 sudo apt-get update
+
 sudo apt install ros-humble-slam-toolbox ros-humble-rtabmap-ros
+
 sudo apt install ros-humble-nav2-bringup
 
 
 colcon build --symlink-install
+
 source install/setup.bash
+
 ros2 launch robo_warehouse minimal_launch_file.launch.py
