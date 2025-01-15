@@ -73,10 +73,8 @@ TODO
 Wymagane oprogramowanie do uruchomienia programu:
 
 - Python 3.10.12
-- os-humble-slam-toolbox
-- nav2_bringup
 
-Przed uruchomieniem
+Przed uruchomieniem należy doinstalować odpodwiednie paczki:
 
 > ```bash
 > sudo apt-get update
