@@ -76,6 +76,19 @@ Wymagane oprogramowanie do uruchomienia programu:
 - os-humble-slam-toolbox
 - nav2_bringup
 
+Przed uruchomieniem
+
+> ```bash
+> sudo apt-get update
+> ```
+
+> ```bash
+> sudo apt install ros-humble-slam-toolbox ros-humble-rtabmap-ros
+> ```
+
+> ```bash
+> ros2 sudo apt install ros-humble-nav2-bringup
+> ```
 
 ## Uruchomienie
 
@@ -84,42 +97,15 @@ Wymagane oprogramowanie do uruchomienia programu:
 > ```
 
 > ```bash
-> ros2 run robo_warehouse robo_warehouse_entry
-> ```
-
-Następnie w odobnym terminalu
-
-> ```bash
 > source install/setup.bash
 > ```
 
 > ```bash
-> ros2 run tf2_tools view_frames
-> ```
-
-> ```bash
-> ros2 run tf2_tools view_frames
-> ```
-
-> ```bash
-> ros2 launch slam_toolbox online_async_launch.py
-> ```
-
-> ```bash
-> ros2 launch nav2_bringup navigation_launch.py
+> ros2 launch robo_warehouse minimal_launch_file.launch.py
 > ```
 
 ## Użycie
 
-sudo apt-get update
-
-sudo apt install ros-humble-slam-toolbox ros-humble-rtabmap-ros
-
-sudo apt install ros-humble-nav2-bringup
 
 
-colcon build --symlink-install
 
-source install/setup.bash
-
-ros2 launch robo_warehouse minimal_launch_file.launch.py
