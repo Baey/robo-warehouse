@@ -54,3 +54,59 @@ Należy pamiętać, aby po zbudowaniu wywołać komendę lub pracować w nowym t
 * [ROS 2 Command Cheat Sheet](cheatsheet.md)
 * [ROS 2 Example packages in Python](example.md)
 * [Bridge communication between ROS and Gazebo](ros_gz_bridge.md)
+
+# READMI do Forka
+
+## Spis treści
+
+1. [Opis](#opis)
+2. [Wymagania](#wymagania)
+3. [Instalacja](#instalacja)
+4. [Użycie](#użycie)
+
+## Opis
+
+TODO
+
+## Wymagania
+
+Wymagane oprogramowanie do uruchomienia programu:
+
+- Python 3.10.12
+- os-humble-slam-toolbox
+- nav2_bringup
+
+
+## Uruchomienie
+
+> ```bash
+> colcon build --symlink-install
+> ```
+
+> ```bash
+> ros2 run robo_warehouse robo_warehouse_entry
+> ```
+
+Następnie w odobnym terminalu
+
+> ```bash
+> source install/setup.bash
+> ```
+
+> ```bash
+> ros2 run tf2_tools view_frames
+> ```
+
+> ```bash
+> ros2 run tf2_tools view_frames
+> ```
+
+> ```bash
+> ros2 launch slam_toolbox online_async_launch.py
+> ```
+
+> ```bash
+> ros2 launch nav2_bringup navigation_launch.py
+> ```
+
+## Użycie
