@@ -49,6 +49,17 @@ Przed uruchomieniem należy doinstalować odpodwiednie paczki:
 Aby zdadać robotowi docelową destynację należy po uruchomieniu okna klinknąc na przycisk "2D Goal Pose" i kliknąc na odpowiednie miejsce na planszy.
 Następnie za pomoca strzałki można wybrać kierunek robota.
 
+## Poruszanie robotem za pomocą klawiatury
+w nowym terminalu:
+> ```bash
+> ros2 run ros_gz_bridge parameter_bridge /model/tugbot/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist
+> ```
+
+w kolejnym nowym terminalu:
+> ```bash
+> source install/setup.bash
+> ```
+w konsoli wpisać t, a następnie można poruszać robotem klawiszami w,a,s,d
 
 
 
