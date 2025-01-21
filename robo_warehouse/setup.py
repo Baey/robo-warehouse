@@ -28,6 +28,7 @@ setup(
     entry_points={
         'console_scripts': [
             'tugbot_driver = robo_warehouse.tugbot_driver:main',
+            'task_driver = robo_warehouse.task_driver:main',
         ],
     },
 )
