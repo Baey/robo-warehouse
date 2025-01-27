@@ -99,7 +99,7 @@ W konsoli należy wpisać t, a następnie można poruszać robotem klawiszami w,
 ## Implementacja
 
 ### 1. Mapowanie terenu
-W projekcie wykorzystano algorytm SLAM (Simultaneous Localization and Mapping) dostępny w pakiecie slam_toolbox. Algorytm przetwarza chmurę punktów pochodzącą z lidaru 360°, umożliwiając jednoczesne lokalizowanie robota w przestrzeni i tworzenie mapy nieznanego środowiska.
+W projekcie wykorzystano algorytm SLAM (Simultaneous Localization and Mapping) dostępny w pakiecie slam_toolbox. Algorytm przetwarza dane ze skanu z lidaru 360°, umożliwiając jednoczesne lokalizowanie robota w przestrzeni i tworzenie mapy nieznanego środowiska.
 
 Mapa generowana jest w czasie rzeczywistym i może być wizualizowana w narzędziach takich jak RViz, co ułatwia monitorowanie postępów w skanowaniu oraz diagnostykę ewentualnych problemów z transformacjami (tf).
 
