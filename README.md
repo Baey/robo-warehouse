@@ -12,7 +12,7 @@
 Projekt jest symulacją działania dwóch robotów w magazynie, zaprojektowaną przy użyciu ROS2 + Gazebo. Celem robotów jest przewożenie paczek z jednego miejsca do drugiego w dynamicznie zmieniającym się środowisku. Roboty w tej symulacji zostały wyposażone w systemy SLAM (Simultaneous Localization and Mapping), które umożliwiają im rozpoznawanie otoczenia i mapowanie przestrzeni w czasie rzeczywistym. Dzięki temu roboty są w stanie skutecznie orientować się w przestrzeni magazynowej, planować najkrótszą ścieżkę do paczki oraz reagować na zmieniające się warunki otoczenia. Roboty komunikują się ze sobą, aby określić, który z nich jest bliżej paczki, a robot bliższy paczce podejmuje się jej transportu. Roboty obierają najkrótszą ścieżkę do celu, uwzględniając zmieniające się warunki otoczenia, takie jak przeszkody w przestrzeni magazynowej. System wykorzystuje algorytmy do planowania ścieżki, które pozwalają robotom na skuteczne i bezpieczne poruszanie się w otoczeniu pełnym dynamicznych przeszkód.
 
 ## Diagram systemu
-![Diagram systemu](./image.png)
+![Diagram systemu](./diagram.png)
 
 ## Wymagania
 
@@ -117,6 +117,8 @@ System podążania za wyznaczoną trasą jest również częścią pakietu nav2:
 - Planowanie lokalne (DWA) – Dynamic Window Approach odpowiedzialny jest za omijanie przeszkód w bliskim otoczeniu i dostosowywanie trajektorii w czasie rzeczywistym.
   
 Dzięki tym narzędziom robot TugBot może bezkolizyjnie poruszać się w środowisku symulującym magazyn przemysłowy, wykorzystując zarówno globalną mapę (tworzoną przez SLAM), jak i bieżącą analizę otoczenia.
+
+![Trajektoria](./wyniki_trajektoria.png)
 
 ## Implementacja-uwagi
 
