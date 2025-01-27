@@ -22,7 +22,8 @@ Wymagane oprogramowanie do uruchomienia programu:
 
 Instalacja ROS2 Humble (Ubuntu 22.04):
 > ```bash
-> sudo apt update && sudo apt install ros-humble-desktop
+> sudo apt update
+> sudo apt install ros-humble-desktop
 > echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 > source ~/.bashrc
 > ```
@@ -37,7 +38,7 @@ Instalacja Gazebo:
 > sudo apt install ros-humble-ros-gz-sim
 > ```
 
-Przed uruchomieniem należy doinstalować odpodwiednie paczki:
+Przed uruchomieniem należy doinstalować odpowiednie paczki:
 > ```bash
 > sudo apt-get update
 > ```
