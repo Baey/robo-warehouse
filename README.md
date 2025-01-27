@@ -64,6 +64,28 @@ W konsoli należy wpisać t, a następnie można poruszać robotem klawiszami w,
 
 ## Implementacja
 
+### 1. Mapowanie terenu
+W projekcie wykorzystano algorytm SLAM (Simultaneous Localization and Mapping) dostępny w pakiecie slam_toolbox. Algorytm przetwarza chmurę punktów pochodzącą z lidaru 360°, umożliwiając jednoczesne lokalizowanie robota w przestrzeni i tworzenie mapy nieznanego środowiska.
+
+Mapa generowana jest w czasie rzeczywistym i może być wizualizowana w narzędziach takich jak RViz, co ułatwia monitorowanie postępów w skanowaniu oraz diagnostykę ewentualnych problemów z transformacjami (tf).
+
+### 2. Wyznaczanie trajektorii
+- Rozwiązanie autorskie (A*)
+Na etapie prototypowania zaimplementowano autorską wersję algorytmu A* w języku Python, który wyznacza optymalną ścieżkę, minimalizując funkcję kosztu rozumianą jako suma odcinków dzielących aktualną pozycję robota od celu.
+
+- Pakiet nav2
+Ostatecznie autorskie rozwiązanie zostało zastąpione narzędziami oferowanymi przez nav2. Również w tym pakiecie domyślnie wykorzystuje się A* jako algorytm planowania globalnego, co zapewnia wysoką kompatybilność z innymi komponentami systemu nawigacyjnego.
+
+### 3. Podążanie za trajektorią
+System podążania za wyznaczoną trasą jest również częścią pakietu nav2:
+
+- Planowanie globalne (A*) – Generuje ścieżkę na podstawie aktualnej pozycji robota i docelowego punktu w mapie.
+- Planowanie lokalne (DWA) – Dynamic Window Approach odpowiedzialny jest za omijanie przeszkód w bliskim otoczeniu i dostosowywanie trajektorii w czasie rzeczywistym.
+  
+Dzięki tym narzędziom robot TugBot może bezkolizyjnie poruszać się w środowisku symulującym magazyn przemysłowy, wykorzystując zarówno globalną mapę (tworzoną przez SLAM), jak i bieżącą analizę otoczenia.
+
+## Implementacja - uwagi
+
 ### 1. Realizacja SLAM-a
 
 W projekcie wykorzystano narzędzie slam_toolbox, które oferuje szeroki zakres funkcjonalności do mapowania i lokalizacji. Mimo że konfiguracja teoretycznie była poprawna (poprawnie skonfigurowany topic z danymi skanów laserowych), narzędzie nie otrzymywało właściwych danych i publikowany topic map pozostawał pusty.
@@ -88,11 +110,16 @@ Dodatkową trudnością był brak kompatybilności biblioteki gazebo_ros_control
 
 ### 3. Planowane, lecz niezrealizowane kroki
    
-### 3.1. Mapy łączone z wykorzystaniem map_merge
+#### 3.1. Mapy łączone z wykorzystaniem map_merge
 
 Zamierzano połączyć mapy generowane przez dwa niezależne egzemplarze robotów, korzystając z pakietu map_merge. Umożliwiłoby to uzyskanie jednej spójnej mapy środowiska, stworzonej na podstawie skanów z obu robotów.
 
-### 3.2. Scenariusze testowe z kooperacją robotów
+#### 3.2. Scenariusze testowe z kooperacją robotów
 
 Planowano stworzyć przykładowe zadania, w których oba roboty miałyby współpracować przy rozmieszczaniu paczek w magazynie. Projekt miał obejmować jedynie logikę i wyznaczanie tras do poszczególnych punktów, bez symulowania samych paczek.
+Niestety, próby uwspólnienia mapy oraz zdefiniowania odpowiednich nazw topiców i przestrzeni nazw (namespace) zakończyły się niepowodzeniem z uwagi na:
+
+- Konflikty w nazwach topiców i framów (tf).
+- Trudności w integracji wielu instancji SLAM-u i planowania.
+- Problemy z dostosowaniem pakietu gazebo_ros_control do współpracy z używaną wersją Gazebo.
 
