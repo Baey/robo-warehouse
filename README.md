@@ -16,9 +16,28 @@ Projekt jest symulacją działania dwóch robotów w magazynie, zaprojektowaną 
 Wymagane oprogramowanie do uruchomienia programu:
 
 - Python 3.10.12
+- Ros2 Humble
+- RViz2
+- Gazebo
+
+Instalacja ROS2 Humble (Ubuntu 22.04):
+> ```bash
+> sudo apt update && sudo apt install ros-humble-desktop
+> echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+> source ~/.bashrc
+> ```
+
+Instalacja RViz2:
+> ```bash
+> sudo apt install ros-humble-rviz2
+> ```
+
+Instalacja Gazebo:
+> ```bash
+> sudo apt install ros-humble-ros-gz-sim
+> ```
 
 Przed uruchomieniem należy doinstalować odpodwiednie paczki:
-
 > ```bash
 > sudo apt-get update
 > ```
@@ -33,16 +52,29 @@ Przed uruchomieniem należy doinstalować odpodwiednie paczki:
 
 ## Uruchomienie
 
+Po zainstalowaniu ROS2, Gazebo i RViz2:
+
+Uruchomienie wizualizacji w RViz2 (jeśli nie startuje automatycznie).
+Wysłanie komend do robota (np. 2D Goal Pose lub sterowanie z klawiatury).
+
+Sklonowanie repozytorium z projektem i zbudowanie paczek:
 > ```bash
 > colcon build --symlink-install
 > ```
 
+Uruchomienie środowiska ROS2:
 > ```bash
 > source install/setup.bash
 > ```
 
+Uruchomienie pliku launch:
 > ```bash
 > ros2 launch robo_warehouse minimal_launch_file.launch.py
+> ```
+
+Uruchomienie wizualizacji w RViz2:
+> ```bash
+> ros2 rviz2
 > ```
 
 ## Użycie
@@ -70,11 +102,11 @@ W projekcie wykorzystano algorytm SLAM (Simultaneous Localization and Mapping) d
 Mapa generowana jest w czasie rzeczywistym i może być wizualizowana w narzędziach takich jak RViz, co ułatwia monitorowanie postępów w skanowaniu oraz diagnostykę ewentualnych problemów z transformacjami (tf).
 
 ### 2. Wyznaczanie trajektorii
-- Rozwiązanie autorskie (A*)
-Na etapie prototypowania zaimplementowano autorską wersję algorytmu A* w języku Python, który wyznacza optymalną ścieżkę, minimalizując funkcję kosztu rozumianą jako suma odcinków dzielących aktualną pozycję robota od celu.
 
-- Pakiet nav2
-Ostatecznie autorskie rozwiązanie zostało zastąpione narzędziami oferowanymi przez nav2. Również w tym pakiecie domyślnie wykorzystuje się A* jako algorytm planowania globalnego, co zapewnia wysoką kompatybilność z innymi komponentami systemu nawigacyjnego.
+#### Pakiet nav2
+Do wyznaczania trajektorii w projekcie wykorzystano pakiet nav2, który umożliwia planowanie globalnej ścieżki z użyciem algorytmu A*. Algorytm ten minimalizuje funkcję kosztu, wyznaczając optymalną trasę od aktualnej pozycji robota do celu, uwzględniając przeszkody na globalnej mapie.
+
+Na etapie prototypowania zaimplementowano również autorską wersję A* w Pythonie, jednak ostatecznie została ona zastąpiona rozwiązaniem z nav2, które oferuje lepszą integrację z innymi modułami nawigacyjnymi, takimi jak dynamiczne unikanie przeszkód i zarządzanie mapami.
 
 ### 3. Podążanie za trajektorią
 System podążania za wyznaczoną trasą jest również częścią pakietu nav2:
