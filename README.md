@@ -1,11 +1,11 @@
-# READMI
+# README
 ## Spis treści
 
 1. [Opis](#opis)
 2. [Wymagania](#wymagania)
 3. [Instalacja](#instalacja)
 4. [Użycie](#użycie)
-5. [Implementacja - uwagi])(#implementacja)
+5. [Implementacja](#implementacja)
    
 ## Opis
 
@@ -62,7 +62,7 @@ w kolejnym nowym terminalu:
 > ```
 W konsoli należy wpisać t, a następnie można poruszać robotem klawiszami w,a,s,d
 
-## Implementacja - uwagi
+## Implementacja
 
 ### 1. Realizacja SLAM-a
 
